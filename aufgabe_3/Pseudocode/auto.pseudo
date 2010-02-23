@@ -1,0 +1,64 @@
+Main
+{
+	Setze Richtung auf Eingabeparameter // NS oder SN
+	Setze SimulationAktiv auf True
+	Hole Tunnel_Monitor.Warteschlange
+	Setze Warteschlange auf Tunnel_Monitor.Warteschlange
+	
+	Solange (SimulationAktiv)
+	{
+		// an Tunnel heranfahren
+		Warte Zufall(3 bis 5) Sekunden
+		AbInsDunkel
+		
+		// Fahrzeug im Tunnel
+		Warte Zufall(3 bis 5) Sekunden
+		ZurückInsLicht		
+	}
+	
+	Beende Programm
+}
+
+
+SendeNachricht(Warteschlange, meineNachricht)
+{
+	Wenn !(MessageQueue verfügbar) {
+		Gib aus "Tunnelmonitor fehlt!"
+		Beende Programm
+	}
+	Sende Nachricht Warteschlange, meineNachricht
+}
+
+
+AbInsDunkel
+{
+	Setzt meinSignal auf SIG_STOP
+	Solange (SIG_STOP)
+	{
+		Wenn (Richtung == NS) {
+			SendeNachricht (Warteschlange, arriveNorth);
+		} else {
+			SendeNachricht (Warteschlange, arriveSouth);
+		}
+	
+		Warte auf Signal
+		Setze meinSignal auf empfangenes Signal
+	}
+}
+
+
+ZurückInsLicht
+{
+	Setzt meinSignal auf SIG_STOP
+	Solange (SIG_STOP)
+	{
+		Wenn (Richtung == NS) {
+			SendeNachricht (Warteschlange, leaveSouth);
+		} else {
+			SendeNachricht (Warteschlange, leaveNorth);
+		}
+	
+		Warte auf Signal
+		Setze meinSignal auf empfangenes Signal
+	}
+}

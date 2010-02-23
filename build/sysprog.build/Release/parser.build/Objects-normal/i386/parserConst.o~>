@@ -1,0 +1,1 @@
+/Users/schneider/Coding/Mac/sysprog/parserConst.cpp:46: error: no 'std::string parserConst::typificationAsString(int)' member function declared in class 'parserConst'

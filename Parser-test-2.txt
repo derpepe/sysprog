@@ -1,0 +1,39 @@
+int n;
+float i;
+float j;
+int [5]a;
+int x;
+int y;
+
+
+n = 3 + 4;
+n = 3*n--5;
+write (n);
+
+i = 1.5;
+j = 2.5;
+
+if ( i < j ) {
+write(j);
+} else {
+write(i);
+};
+
+i = i*j;
+if ( i < j ) {
+write(j);
+} else {
+write(i--);
+};
+
+
+x=0; y=0;
+
+while(x<5){
+a[x] = x;
+(* x++; *) x=x+1;
+};
+
+while(y<5){
+write(a[y]);
+};

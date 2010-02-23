@@ -1,0 +1,4 @@
+/Users/schneider/Coding/Mac/sysprog/Marker.cpp:22: error: prototype for 'int Marker::getName()' does not match any in class 'Marker'
+/Users/schneider/Coding/Mac/sysprog/Marker.h:21: error: candidate is: std::string Marker::getName()
+/Users/schneider/Coding/Mac/sysprog/Marker.cpp:22: error: 'int Marker::getName()' cannot be overloaded
+/Users/schneider/Coding/Mac/sysprog/Marker.h:21: error: with 'std::string Marker::getName()'

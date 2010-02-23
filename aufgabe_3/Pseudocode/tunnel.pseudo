@@ -1,0 +1,54 @@
+Main
+{
+	Setze Startzeit auf NOW()
+	Setze TunnelStatus auf Leer
+	Setze Semaphore auf TunnelKapazität
+	Setze SimulationAktiv auf True
+	
+	Lege MessageQueue an
+	Reserviere SharedMemory
+	
+	Solange (SimulationAktiv)
+	{
+		wenn (Nachricht In MessageQueue) {
+			Frage Nachricht ab
+			switch (Nachricht) {
+				case arriveSouth:
+				case arriveNorth:
+					Wenn (Nachricht.Richtung == arriveSouth) {
+						Setze Richtung auf SN;
+					} sonst {
+						Setze Richtung auf NS;
+					}
+					Wenn (((TunnelStatus == Leer) || (TunnelStatus == Richtung)) && (Semaphore > 0)) {
+						// Auto darf einfahren
+						Schicke Signal "SIG_CONT" an Nachricht.Sender
+						Semaphor erwerben
+						Setze TunnelStatus auf Richtung
+					} else {
+						// Auto muss warten
+						Schicke Signal "SIG_STOP" an Nachricht.Sender
+					}
+					break;
+				case leaveNorth:
+				case leaveSouth:
+					Schicke Signal "SIG_CONT" an Nachricht.Sender
+					Semaphor freigeben
+					wenn (Semaphor == 0) {
+						Setze TunnelStatus auf Leer
+					}
+					break;
+				}
+			}
+			// Nachrichten wurden hier verarbeitet
+			// jetzt noch in den SharedMemory schreiben
+			Schreibe Richtung in SharedMemory
+			Schreibe Semaphor in SharedMemory
+		}
+	
+		Wenn (NOW() - StartZeit > 100 Sekunden) {
+			Setze SimulationAktiv auf False
+		}
+	}
+	Beende Programm
+}

@@ -1,0 +1,21 @@
+Main
+{
+	SharedMemory anfordern
+	Setze meinSharedMemory auf NULL
+	
+	Solange (MessageQueue verfügbar)
+	{
+		Frage ShareMemory ab
+		Wenn (meinSharedMemory != SharedMemory)
+		{
+			// Änderung im Shared Memory
+			Setze meinSharedMemory auf SharedMemory
+
+			Lies TunnelStatus aus SharedMemory
+			Gib TunnelStatus aus
+		}
+	}
+	
+	Gib aus "Tunnelmonitor ist weg"
+	Beende Programm
+}
